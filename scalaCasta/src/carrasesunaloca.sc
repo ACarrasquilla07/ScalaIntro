@@ -35,7 +35,7 @@ def add2(l: List[Int]): List[Int] ={
 
 
 
-import scala.annotation.tailrec
+	import scala.annotation.tailrec
 
 def add(l: List[Int]): List[Int] ={
   @tailrec
@@ -168,3 +168,119 @@ object Mensaje{
 
 //def cifrar(m: Mensaje): Mensaje = m
 //Mer Mensaje("Hola",1).fold(Identity, cifrar
+
+/*
+
+# Preguntas (10% c/u)
+
+1. ¿Qué acciones ***no*** debería realizar una función pura?
+    Las funciones puras no deberian realizar lo siguiente:
+     - No deben tomar variables globales
+     - No deben llamar funciones que no sean puras
+     - No deben tener datos mutables
+     - Siempre deben retornar los mismos datos para la misma entrada
+
+
+2. ¿Qué se gana al crear funciones puras?
+    Las funciones puras no estan acopladas, por lo tanto es más sencillo realizar pruebas.
+    El codigo de estas es más entendible, y debido a que no necesitan datos externos se
+    pueden paralelizar de manera sencilla.
+    El negocio de un proyecto deberia ser con funciones puras, debido a que con estas,
+    se puede garantizar la integridad del codigo.
+
+3. ¿Por qué diseñar datos inmutables?
+    Es mejor diseñar con datos inmutables debido a que los datos mutables pueden cambiar en
+    cualquier momento de estado, por lo tanto al usar datos imutables garantizamos integridad
+    en los datos.
+
+4. ¿Por qué son importantes los tipos?
+    Los tipos son importantes para definir claramente con que estamos trabajando, esto nos
+    ayuda a filtrar la informacion que le puede llegar a un método, y así, encontrar más facil
+    errores en tiempo de complilación.
+
+# Tests Passed(4% c/u) 
+
+# Estilo y buenas prácticas (-1% por cada falla) 
+Ejemplos de fallas:
+- No reusar funciones donde aplique. Incluye funciones de orden superior.
+- No usar funciones parciales para ganar expresividad donde aplique.
+- No usar nombres dicientes para variables o funciones (no aplica para funciones anónimas con *underscore*).
+- Las funciones con s
+
+*/
+
+/*
+
+
+
+package exam
+
+import scala.annotation.tailrec
+
+sealed trait Collection[+A]
+case object Empty extends Collection[Nothing]
+final case class Cons[+A](head: A, tail: Collection[A]) extends Collection[A]
+
+object Collection {
+  def apply[A](as: A*): Collection[A] = as.toList match {
+    case cons if cons.isEmpty => Empty
+    case h :: t => Cons(h, apply(t: _*))
+  }
+
+  def foldRight[A, B](col: Collection[A], z: B)(f: (A, B) => B): B = col match {
+    case Empty => z
+    case Cons(h, t) => f(h, foldRight(t, z)(f))
+  }
+
+  def length[A](col: Collection[A]): Int = foldRight(col, Integer.MIN_VALUE) { ??? }
+}
+
+object CollectionInt {
+  def sumFold(col: Collection[Int]): Int = Collection.foldRight(col, ???)(???)
+
+  def sumRec(l: Collection[Int]): Int = {
+    @tailrec
+    def sumAccumulator(elm: Collection[Int], acum: Int): Int = {
+      elm match {
+        case Cons(h, Empty) => h + acum
+        case Cons(h, t) => sumAccumulator(t, (h + acum))
+        case Empty => acum
+      }
+    }
+    sumAccumulator(l, 0)
+  }
+
+  def productFold(col: Collection[Int]) = ???
+
+  //def productRec(col: Collection[Int]) = ???
+
+  def productRec(l: Collection[Int]): Int = {
+    @tailrec
+    def proAccumulator(elm: Collection[Int], acum: Int): Int = {
+      elm match {
+        case Cons(h, Empty) => h * acum
+        case Cons(h, t) => proAccumulator(t, (h * acum))
+        case Empty => acum
+      }
+    }
+    proAccumulator(l, 1)
+  }
+
+  def maxFold(col: Collection[Int]) = Collection.foldRight(col, Integer.MAX_VALUE)(_ max _)
+
+  def maxRec(l: Collection[Int]): Int = {
+    @tailrec
+    def max(elm: Collection[Int], maximo: Int):
+    Int ={
+      elm match {
+        case Cons(h, Empty) => if (h >= maximo) h else maximo
+        case Cons(h, t) => max(t, if (h >= maximo) h else maximo)
+        case Empty => maximo
+      }
+    }
+    max(l, 0)
+  }
+}
+
+
+*/
